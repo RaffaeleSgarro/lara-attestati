@@ -2,9 +2,83 @@
 <html>
 <head lang="en">
     <title>Attestato ECM</title>
+    <style>
+
+        @page {
+          size: A4 portrait;
+          padding: 1cm;
+          border: 1px solid black;
+          margin: 1cm;
+        }
+
+        .wrapper {
+          margin: 0;
+          padding: 0;
+          text-align: center;
+        }
+
+        body {
+          margin: 0;
+          padding: 0;
+        }
+
+        .ecm {
+          width: 78mm;
+          height: 10mm;
+          float: left;
+        }
+
+        .firma {
+          width: 38mm;
+          height: 14mm;
+        }
+
+        .icp {
+          float: right;
+          width: 20mm;
+          height: 12mm;
+        }
+
+        h1 {
+          clear: both;
+        }
+
+    </style>
 </head>
 <body>
-It works!
-<img src="logo.png" />
+    <div class="wrapper">
+        <img class="ecm" src="ecm.png" />
+        <img class="icp" src="icp.png" />
+
+        <h1>Programma nazionale per la formazione continua degli operatori della Sanità</h1>
+
+        <div>
+            Premesso che la Commissione Nazionale per la Formazione Continua ha accreditato provvisoriamente I.C.P. accreditamento n. 3981; premesso che il Provider ha organizzato l’evento formativo n. 99499, edizione n. 1 denominato “La stipsi in età pediatrica” e tenutosi dal 15/07/2014 al 15/07/2015 avente come obiettivo didattico/formativo generale:
+            “Documentazione clinica. Percorsi clinico-assistenziali diagnostici e riabilitativi, profili di assistenza - profili di cura” assegnando all’evento stesso n. 10 (dieci) Crediti Formativi E.C.M.
+        </div>
+
+        <div>
+            il sottoscritto<br/>
+            Dott. Giuseppe Varrasi<br/>
+            Rappresentante legale del Provider<br/>
+            verificato l’apprendimento del partecipante<br/>
+            ATTESTA<br/>
+            che il/la<br/>
+            {{name}}<br/>
+            in qualità di {{job_type}}<br/>
+            nato/a a {{birth_place}} il {{birth_date}}<br/>
+            iscritto all’{{ordine}} n. {{n}}<br/>
+            ha acquisito:<br/>
+            N. 10 (dieci) Crediti formativi per l’anno 2015<br/>
+            <br/>
+            <br/>
+
+            Brescia, lì {{today}}<br/>
+
+
+            Il rappresentante legale del Provider
+        </div>
+        <img class="firma" src="firma.png" />
+    </div>
 </body>
 </html>

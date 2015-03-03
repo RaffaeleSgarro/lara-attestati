@@ -1,21 +1,25 @@
 package lara;
 
+import com.samskivert.mustache.Template;
 import org.apache.commons.io.IOUtils;
 import org.xhtmlrenderer.pdf.ITextRenderer;
-import org.xhtmlrenderer.pdf.ITextReplacedElementFactory;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Map;
 
 public class Attestato {
 
-    public void writePdf(OutputStream out) throws Exception{
+    private final Template template;
 
-        InputStream in = Attestato.class.getResourceAsStream("/attestato.html");
-        String html = IOUtils.toString(in, "UTF-8");
-        in.close();
+    public Attestato(Template template) {
+        this.template = template;
+    }
+
+    public void writePdf(Map<String, Object> bindings, OutputStream out) throws Exception{
 
         ITextRenderer renderer = new ITextRenderer();
+        String html = template.execute(bindings);
         renderer.setDocumentFromString(html);
 
         renderer.getSharedContext().setReplacedElementFactory(new ReplacedElementFactoryImpl(renderer.getOutputDevice()));

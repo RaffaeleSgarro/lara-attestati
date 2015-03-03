@@ -21,7 +21,7 @@ public class Main {
         in.close();
 
         Template template = Mustache.compiler()
-                .defaultValue("{{name}}")
+                .defaultValue("{{{name}}}")
                 .compile(html);
 
         File baseDir = new File("attestati");

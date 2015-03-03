@@ -20,12 +20,14 @@ public class Main {
         String html = IOUtils.toString(in, "UTF-8");
         in.close();
 
-        Template template = Mustache.compiler().compile(html);
+        Template template = Mustache.compiler()
+                .defaultValue("{{name}}")
+                .compile(html);
 
         File baseDir = new File("attestati");
 
-        if (baseDir.exists())
-            throw new RuntimeException("Directory " + baseDir + " already exists!");
+        // if (baseDir.exists())
+        //    throw new RuntimeException("Directory " + baseDir + " already exists!");
 
         FileUtils.forceMkdir(baseDir);
 

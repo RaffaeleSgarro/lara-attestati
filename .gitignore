@@ -1,2 +1,3 @@
-attestati/*.pdf
-attestati/*.csv
+/attestati
+/data.csv
+/sample/attestati/*.pdf

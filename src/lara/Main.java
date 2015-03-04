@@ -21,7 +21,7 @@ public class Main {
      *
      * Invoke like this
      *
-     * java lara.Main attestati/data.csv
+     * java lara.Main data.csv attestati
      *
      * @param args
      * @throws Exception
@@ -50,8 +50,8 @@ public class Main {
 
         File baseDir = new File(args[1]);
 
-        // if (baseDir.exists())
-        //    throw new RuntimeException("Directory " + baseDir + " already exists!");
+        if (baseDir.exists())
+          throw new RuntimeException("Directory " + baseDir + " already exists!");
 
         FileUtils.forceMkdir(baseDir);
 

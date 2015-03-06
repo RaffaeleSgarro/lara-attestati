@@ -61,8 +61,8 @@ public class Main {
 
         for (CSVRecord record : parser.getRecords()) {
             String id = record.get("id");
-            String lastName = record.get("cognome");
-            String firstName = record.get("nome");
+            String lastName = record.get("cognome").toUpperCase();
+            String firstName = record.get("nome").toUpperCase();
 
             if (processed.contains(id))
                 continue;
@@ -71,7 +71,7 @@ public class Main {
 
             Attestato attestato = new Attestato(template);
             attestato.bind("name", record.get("cognome") + " " + record.get("nome"));
-            attestato.bind("job_type", "<TODO>");
+            attestato.bind("job_type", record.get("qualifica"));
             attestato.bind("birth_place", record.get("comune di nascita"));
             attestato.bind("birth_date", record.get("data di nascita"));
             attestato.bind("odm", record.get("OdM"));

@@ -23,14 +23,14 @@ public class Attestato {
 
         ITextRenderer renderer = new ITextRenderer();
         String html = template.execute(bindings);
-        renderer.setDocumentFromString(html);
+        renderer.setDocumentFromString(html, baseURL);
 
-        renderer.getSharedContext().setBaseURL(baseURL);
         NaiveUserAgent uac = new NaiveUserAgent();
         uac.setBaseURL(baseURL);
 
         renderer.getSharedContext().setUserAgentCallback(uac);
         renderer.getSharedContext().setReplacedElementFactory(new ReplacedElementFactoryImpl(renderer.getOutputDevice()));
+        renderer.getSharedContext().setBaseURL(baseURL);
 
         renderer.layout();
         renderer.createPDF(out);

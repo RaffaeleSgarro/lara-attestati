@@ -1,0 +1,49 @@
+@page {
+    size: A4 portrait;
+    padding: 1cm;
+    border: 1px solid black;
+    margin: 1cm;
+}
+.wrapper {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+body {
+    margin: 0;
+    padding: 0;
+}
+.ecm {
+    width: 78mm;
+    height: 10mm;
+    float: left;
+}
+.firma {
+    margin-top: 5mm;
+    width: 38mm;
+    height: 14mm;
+}
+.icp {
+    float: right;
+    width: 20mm;
+    height: 12mm;
+}
+.clearer {
+    clear: both;
+}
+.title {
+    display: block;
+    margin-top: 10mm;
+    margin-bottom: 10mm;
+    font-size: 1.2em;
+    font-weight: bold;
+    font-style: italic;
+    clear: both;
+}
+.premise {
+    text-align: center;
+    word-wrap: none;
+}
+.v-spacer {
+    margin-top: 1cm;
+}

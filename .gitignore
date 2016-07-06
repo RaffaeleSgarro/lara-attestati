@@ -2,3 +2,8 @@
 /data.csv
 /sample/attestati/*.pdf
 /lib/
+/out/
+/build/
+/tmp/
+
+.idea/workspace.xml

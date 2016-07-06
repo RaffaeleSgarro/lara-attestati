@@ -7,12 +7,18 @@ Configuration is loaded from a file `conf.yaml` in the current directory and pla
 Both filename and encoding can be overridden with command line parameters:
 
 ```
-java lara.Main conf/gusto.yaml CP1252
+java -cp 'lib/*' lara.Main conf/gusto.yaml UTF8
 ```
 
-### Workflow
+### Usage
 
 - Prepare the HTML template by copying and editing an example in `examples/html`
 - Set up a YAML configuration file (again, template is available in `examples`
 - Export the CSV with the template contents
 - Enjoy :)
+
+### Release
+
+An Intellij task is provided to make distributable artifacts in `out/artifacts`
+
+- Build > Build Artifacts > Genera-Attestati-Release

@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact name="Genera-Attestati-Release">
+    <output-path>$PROJECT_DIR$/out/artifacts/Genera-Attestati-Release</output-path>
+    <root id="root">
+      <element id="directory" name="examples">
+        <element id="dir-copy" path="$PROJECT_DIR$/examples" />
+      </element>
+      <element id="directory" name="lib">
+        <element id="library" level="project" name="com.esotericsoftware.yamlbeans:yamlbeans:1.09" />
+        <element id="library" level="project" name="com.samskivert:jmustache:1.10" />
+        <element id="library" level="project" name="commons-io:commons-io:2.4" />
+        <element id="library" level="project" name="org.apache.commons:commons-csv:1.4" />
+        <element id="library" level="project" name="org.apache.commons:commons-lang3:3.4" />
+        <element id="library" level="project" name="org.slf4j:slf4j-api:1.7.10" />
+        <element id="library" level="project" name="org.slf4j:slf4j-simple:1.7.10" />
+        <element id="library" level="project" name="org.xhtmlrenderer:flying-saucer-pdf:9.0.7" />
+        <element id="archive" name="lara-attestati.jar">
+          <element id="module-output" name="lara-attestati" />
+        </element>
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/README.md" />
+    </root>
+  </artifact>
+</component>

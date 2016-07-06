@@ -7,3 +7,6 @@
 /tmp/
 
 .idea/workspace.xml
+conf.yaml
+conf/*
+templates/*

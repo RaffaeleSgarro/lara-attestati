@@ -1,0 +1,16 @@
+templateFilename: examples/html/gusto.html
+templateEncoding: UTF-8
+dataFilename: examples/gusto.csv
+dataEncoding: UTF-8
+columns:
+  id: ID
+  firstName: Nome
+  lastName: Cognome
+  birthPlace: Comune di nascita
+  birthDate: Data di nascita
+  jobType: Qualifica
+  odm: OdM
+  n: N
+  finishDate: Fine
+destination: tmp/attestati
+pdfFilePrefix: '000000_Attestato '

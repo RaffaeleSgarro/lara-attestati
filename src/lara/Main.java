@@ -1,100 +1,148 @@
 package lara;
 
+import com.esotericsoftware.yamlbeans.YamlReader;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.*;
 
 public class Main {
 
     private static final Logger log = LoggerFactory.getLogger("attestati");
 
-    /**
+    private final Configuration configuration;
+
+    private CSVParser parser;
+    private CSVRecord csv;
+
+    public Main(Configuration configuration) {
+        this.configuration = configuration;
+    }
+
+    /*
+     * Configuration is loaded from conf.yaml and possibly overridden via the first
+     * command line parameter.
      *
-     * Invoke like this
-     *
-     * java lara.Main data.csv attestati
-     *
-     * @param args
-     * @throws Exception
+     * Configuration file encoding is platform default.
      */
     public static void main(String... args) throws Exception {
 
-        if (args.length != 2) {
-            throw new RuntimeException("Usage: java lara.Main 'attestati/data.csv' 'attestati'");
-        }
+        String confFilename = args.length >= 1 ? args[0] : "conf.yaml";
+        String confFileEncoding = args.length >= 2 ? args[1] : Charset.defaultCharset().name();
 
-        InputStream in = Attestato.class.getResourceAsStream("/gusto.html");
-        String html = IOUtils.toString(in, "UTF-8");
-        in.close();
+        log.info("Loading configuration from file {}, encoding {}", confFilename, confFileEncoding);
+
+        YamlReader yaml = new YamlReader(new InputStreamReader(new FileInputStream(confFilename), confFileEncoding));
+        Configuration configuration = yaml.read(Configuration.class);
+
+        Main main = new Main(configuration);
+        main.start();
+
+        log.info("Program completed!");
+    }
+
+    public void start() throws Exception {
+
+        String baseURL = configuration.getTemplateBaseURL();
 
         Template template = Mustache.compiler()
                 .defaultValue("{{{name}}}")
-                .compile(html);
+                .compile(configuration.getTemplateText());
 
-        Reader data = new InputStreamReader(new FileInputStream(args[0]), "UTF-8");
+        log.info("Read data from CSV at " + configuration.getDataFilename());
 
-        CSVParser parser = CSVFormat.DEFAULT
-                .withHeader()
-                .parse(data);
+        File destination = new File(configuration.getDestination());
 
-        log.info("Read data from CSV at " + args[0]);
+        if (destination.exists())
+            throw new RuntimeException("Directory " + destination
+                    + " already exists and I'm too coward to overwrite user files!");
 
-        File baseDir = new File(args[1]);
+        FileUtils.forceMkdir(destination);
 
-        if (baseDir.exists())
-          throw new RuntimeException("Directory " + baseDir + " already exists!");
-
-        FileUtils.forceMkdir(baseDir);
-
-        log.info("Workind directory is " + baseDir);
+        log.info("Working directory is " + destination);
 
         Set<String> processed = new HashSet<>();
 
-        for (CSVRecord record : parser.getRecords()) {
-            String id = record.get("id");
-            String lastName = record.get("cognome").toUpperCase();
-            String firstName = record.get("nome").toUpperCase();
+        parser = CSVFormat.DEFAULT
+                .withHeader()
+                .withIgnoreHeaderCase()
+                .parse(configuration.openDataReader());
 
-            if (processed.contains(id))
-                continue;
+        for (CSVRecord _record : parser.getRecords()) {
+            this.csv = _record;
+            try {
+                String id = field("id");
+                String lastName = field("lastName");
+                String firstName = field("firstName");
 
-            processed.add(id);
+                if (processed.contains(id))
+                    continue;
 
-            Attestato attestato = new Attestato(template);
-            attestato.bind("name", WordUtils.capitalize(record.get("cognome").toLowerCase()) + " " + WordUtils.capitalize(record.get("nome").toLowerCase()));
-            // attestato.bind("job_type", record.get("qualifica"));
-            attestato.bind("birth_place", record.get("comune di nascita").toUpperCase());
-            attestato.bind("birth_date", record.get("data di nascita"));
-            attestato.bind("odm", StringUtils.capitalize(record.get("odm")));
-            attestato.bind("n", record.get("n"));
-            attestato.bind("finish_date", record.get("fine"));
+                processed.add(id);
 
-            File file = new File(baseDir, "144101_Attestato " + lastName + " " + firstName + " " + id + ".pdf");
+                Attestato attestato = new Attestato(baseURL, template);
+                attestato.bind("name",
+                          beautify(firstName)
+                        + " "
+                        + beautify(lastName));
 
-            if (file.exists())
-                throw new RuntimeException("File already exists: " + file);
+                if (parser.getHeaderMap().containsKey("qualifica")) {
+                    attestato.bind("job_type", field("jobType"));
+                }
 
-            OutputStream out = new FileOutputStream(file);
-            attestato.writePdf(out);
-            out.flush();
-            out.close();
+                attestato.bind("birth_place", StringUtils.upperCase(field("birthPlace")));
+                attestato.bind("birth_date", field("birthDate"));
+                attestato.bind("odm", StringUtils.capitalize(field("odm")));
+                attestato.bind("n", field("n"));
+                attestato.bind("finish_date", field("finishDate"));
 
-            log.info("Generated " + file);
+                File file = new File(destination, configuration.getPdfFilePrefix()
+                        + beautify(lastName)
+                        + " "
+                        + beautify(firstName)
+                        + " "
+                        + id
+                        + ".pdf");
+
+                if (file.exists())
+                    throw new RuntimeException("File already exists: " + file);
+
+                OutputStream out = new FileOutputStream(file);
+                attestato.writePdf(out);
+                out.flush();
+                out.close();
+
+                log.info("Generated " + file);
+            } catch (Exception e) {
+                throw new RuntimeException("Error at line " + parser.getCurrentLineNumber(), e);
+            }
         }
 
-        data.close();
+        parser.close();
+    }
 
+    private String field(String columnName) {
+        String mappedColumnName = configuration.getMappedColumnName(columnName);
+
+        if (csv.isMapped(mappedColumnName)) {
+            return csv.get(mappedColumnName);
+        } else {
+            return null;
+        }
+    }
+    
+    private String beautify(String name) {
+        return WordUtils.capitalize(StringUtils.lowerCase(name));
     }
 
 }

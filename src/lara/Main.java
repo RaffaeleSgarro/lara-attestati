@@ -7,6 +7,8 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +17,7 @@ import java.util.*;
 
 public class Main {
 
-    private static final Logger log = LoggerFactory.getLogger(Main.class);
+    private static final Logger log = LoggerFactory.getLogger("attestati");
 
     /**
      *
@@ -32,7 +34,7 @@ public class Main {
             throw new RuntimeException("Usage: java lara.Main 'attestati/data.csv' 'attestati'");
         }
 
-        InputStream in = Attestato.class.getResourceAsStream("/attestato.html");
+        InputStream in = Attestato.class.getResourceAsStream("/gusto.html");
         String html = IOUtils.toString(in, "UTF-8");
         in.close();
 
@@ -70,15 +72,15 @@ public class Main {
             processed.add(id);
 
             Attestato attestato = new Attestato(template);
-            attestato.bind("name", record.get("cognome") + " " + record.get("nome"));
-            attestato.bind("job_type", record.get("qualifica"));
-            attestato.bind("birth_place", record.get("comune di nascita"));
+            attestato.bind("name", WordUtils.capitalize(record.get("cognome").toLowerCase()) + " " + WordUtils.capitalize(record.get("nome").toLowerCase()));
+            // attestato.bind("job_type", record.get("qualifica"));
+            attestato.bind("birth_place", record.get("comune di nascita").toUpperCase());
             attestato.bind("birth_date", record.get("data di nascita"));
-            attestato.bind("odm", record.get("OdM"));
-            attestato.bind("n", record.get("num. OdM"));
-            attestato.bind("finish_date", record.get("data completamento"));
+            attestato.bind("odm", StringUtils.capitalize(record.get("odm")));
+            attestato.bind("n", record.get("n"));
+            attestato.bind("finish_date", record.get("fine"));
 
-            File file = new File(baseDir, "99499_Attestato " + lastName + " " + firstName + " " + id + ".pdf");
+            File file = new File(baseDir, "144101_Attestato " + lastName + " " + firstName + " " + id + ".pdf");
 
             if (file.exists())
                 throw new RuntimeException("File already exists: " + file);

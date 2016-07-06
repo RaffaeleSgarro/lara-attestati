@@ -13,7 +13,6 @@ import org.xhtmlrenderer.pdf.ITextOutputDevice;
 import org.xhtmlrenderer.pdf.ITextReplacedElementFactory;
 import org.xhtmlrenderer.render.BlockBox;
 
-import javax.imageio.ImageIO;
 import java.io.InputStream;
 
 public class ReplacedElementFactoryImpl extends ITextReplacedElementFactory {

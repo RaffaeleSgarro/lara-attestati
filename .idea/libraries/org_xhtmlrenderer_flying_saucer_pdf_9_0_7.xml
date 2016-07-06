@@ -10,11 +10,29 @@
       <root url="jar://$PROJECT_DIR$/lib/bcprov-jdk14-1.38.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/bcmail-jdk14-1.38.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/flying-saucer-core-9.0.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/flying-saucer-pdf-9.0.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/itext-2.1.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bcmail-jdk14-138.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bcprov-jdk14-138.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bctsp-jdk14-1.38.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bcprov-jdk14-1.38.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bcmail-jdk14-1.38.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/flying-saucer-core-9.0.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/flying-saucer-pdf-9.0.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/itext-2.1.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bcmail-jdk14-138.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bcprov-jdk14-138.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bctsp-jdk14-1.38.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bcprov-jdk14-1.38.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bcmail-jdk14-1.38.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/flying-saucer-core-9.0.7.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.ideaLibSources/flying-saucer-pdf-9.0.7-sources.jar!/" />
       <root url="jar://$USER_HOME$/.ideaLibSources/flying-saucer-core-9.0.7-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/flying-saucer-pdf-9.0.7-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/flying-saucer-pdf-9.0.7-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
